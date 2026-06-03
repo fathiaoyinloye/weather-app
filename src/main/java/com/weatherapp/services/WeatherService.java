@@ -3,11 +3,15 @@ package com.weatherapp.services;
 import com.weatherapp.dtos.openWeatherResponses.OpenWeatherResponse;
 import com.weatherapp.dtos.responses.GetWeatherResponse;
 import com.weatherapp.exceptions.CityDoesNotExist;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
 public class WeatherService {
+    @Value("${app.openweathermap.api.key}")
+    private String apiKey;
+
 
     private final RestClient restClient;
 
@@ -16,8 +20,7 @@ public class WeatherService {
     }
 
     public GetWeatherResponse fetchWeather(String city) {
-        String apiKey = "your_key";
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",NG&appid=" + "094c577086ceee02e928fa3374fda953" + "&units=metric";
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + ",NG&appid=" + apiKey + "&units=metric";
 
         // 1. Fetch the data into the "External" classes
         OpenWeatherResponse externalData = restClient.get()
